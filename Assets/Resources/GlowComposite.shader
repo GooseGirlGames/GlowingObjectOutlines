@@ -57,8 +57,9 @@ Shader "Hidden/GlowComposite"
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 col = tex2D(_MainTex, i.uv0);
-				fixed4 glow = max(0, tex2D(_GlowBlurredTex, i.uv1) - tex2D(_GlowPrePassTex, i.uv1));
-				return col + glow * _Intensity;
+				fixed4 outline = max(0, tex2D(_GlowBlurredTex, i.uv1) - tex2D(_GlowPrePassTex, i.uv1));
+				fixed4 glow = tex2D(_GlowPrePassTex, i.uv1);
+				return col + outline * _Intensity + glow * _Intensity;
 			}
 			ENDCG
 		}
